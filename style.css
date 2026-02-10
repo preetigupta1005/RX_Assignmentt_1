@@ -1,0 +1,261 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html,body{
+    height:100%;
+    overflow: hidden;
+}
+.full{
+    display: flex;
+    height: 100vh;
+    width:100%;
+}
+.sidebar{
+    width: 20%;
+    height: 100%;
+    background-color: #FFFFFF;
+    border: 1px solid #EBEBEB;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding:30px;
+   
+}
+.sidebar-top{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.a{
+    width: 136.11px;
+    height:31.87px;
+}
+.b{
+    height:60px;
+    width:250px;
+    border:0.5px solid #B5BDCD;
+    border-radius: 2px;
+    display:flex;
+    padding: 10px;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-radius: 5px;
+}
+.logo-user{
+    display: flex;
+    gap: 10px;
+
+}
+
+.logo{
+     height: 32px;
+}
+.jessica{
+    font-family: "Spline Sans", sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+}
+.primary-user{
+    font-family: "Spline Sans", sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    color:#B5BDCD;
+}
+
+.list{
+    display:flex;
+    flex-direction: column;
+    gap:2px;
+   
+} 
+.icon{
+     height:41px;
+     width:250px;
+     display:flex;
+     gap:12px;
+     align-items: center;
+     padding: 15px;
+}
+.sidebar-documents{
+    background-color: #D3F7B5;
+    border-radius: 6px;
+    
+}
+.footer{
+    font-family: "Spline Sans", sans-serif;
+    display:flex;
+    flex-direction: column;
+    gap:8px;
+}
+.footer-img{
+    width:27px;
+    height:27px;
+}
+.footer-trouble{
+    font-weight: 600;
+    color:#1F4451;
+    font-size:16px;
+}
+.footer-para{
+   font-family: Spline Sans;
+   font-weight: 400;
+   font-size: 16px;
+   color: #626D82;
+}
+.footer-button button{
+    background-color: #1F4451;
+    color: white;
+    height: 34px;
+    width: 97px;
+}
+.main-content{
+    
+    background-color: #f5f0ea;
+    display: flex;
+    flex-direction: column;
+    gap:30px;
+    padding: 40px 40px;
+    width:80%;
+}
+.tab1{
+    display: flex;
+    font-family: Spline Sans;
+    font-weight: 400;
+    font-size:16px;
+}
+.tab1 .home{
+    color:#436d7c;
+    
+}
+.tab1 .documents{
+    color:#b5bdcd;
+}
+.tab2{
+    display:flex;
+    justify-content: space-between;    
+}
+.my-documents{
+    font-family: Zin Display;
+    font-weight: 400;
+   font-style: Demo;
+   font-size: 33px;
+}
+.search input {
+  height:47px;
+  width:307px;
+  padding: 10px;
+}
+.search{
+   position: relative;
+}
+.search img {
+ position: absolute;
+ top: 15px;
+ right: 10px;
+}
+/* table styling */
+
+.check{
+    display: flex;
+    gap:5px;
+}
+.arrow img{
+    height:15px;
+    width: 15px;
+}
+.date{
+    color: #626D82;
+    size:16px;
+    padding:4px 14px;
+}
+.but-div{
+    display: flex;
+    padding:15px 14px;
+    gap:10px;
+}
+.but-div img{
+    height: 24px;
+    width:24px;
+   
+}
+.but{
+    width:134px;
+    height:24px;
+    border: 1px solid #b5bdcd;
+    border-radius: 5px;
+    color:#626d82;
+    background-color: white;
+}
+.table-div{
+    padding: 20px;
+    width:1048px;
+    height:571px;
+}
+
+table {
+  border-collapse: collapse;
+  background-color: #FFFFFF;
+  border-radius: 6px;
+   font-family:Spline Sans;
+   
+   width:100%;
+   height:60%;
+}
+table thead tr{
+    text-align: left;
+    border-bottom: 1px solid #d4d6d9;
+    color: black;
+    padding: 20px;
+   
+}
+tbody tr{
+    border-bottom: 1px solid #d4d6d9;
+}
+tbody .doc{
+    color: #436D7C;
+    font-weight: 600;
+}
+th,td{
+    font-family: sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    padding:10px 20px;
+   
+    
+}
+.need-signing{
+    
+    background-color: #436d7c ;
+    border-radius: 22px;
+    color:white;
+    padding: 4px 14px; 
+}
+.pending{
+    background-color: #E8ECF1 ;
+    border-radius: 22px;
+    color:#626d82;
+    padding: 4px 14px; 
+    
+
+}
+.Completed{ 
+    background-color:#D3F7B5 ;
+    border-radius: 22px;
+    color:#1f4451;
+    padding: 4px 14px; 
+}
+.W1{
+   font-size: 16px;
+   color:#B5BDCD;
+   font-family: Spline Sans;
+   font-style: italic;
+}
+.W2{
+   font-size: 16px;
+   color:#436d7c;
+   font-family: Spline Sans;
+   font-style: italic;
+} 
+
