@@ -34,7 +34,7 @@ html,body{
 }
 .b{
     height:60px;
-    width:250px;
+    /* width:95%; */
     border:0.5px solid #B5BDCD;
     border-radius: 2px;
     display:flex;
@@ -42,20 +42,27 @@ html,body{
     justify-content: space-between;
     align-items: flex-end;
     border-radius: 5px;
+    
 }
 .logo-user{
     display: flex;
     gap: 10px;
+    justify-content: center;
+    align-items: flex-end;
 
 }
-
-.logo{
-     height: 32px;
+.user{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 .jessica{
     font-family: "Spline Sans", sans-serif;
     font-weight: 600;
-    font-size: 16px;
+    font-size: 12x;
+    white-space: nowrap;
+
 }
 .primary-user{
     font-family: "Spline Sans", sans-serif;
@@ -72,7 +79,7 @@ html,body{
 } 
 .icon{
      height:41px;
-     width:250px;
+     /* width:250px; */
      display:flex;
      gap:12px;
      align-items: center;
@@ -109,6 +116,7 @@ html,body{
     color: white;
     height: 34px;
     width: 97px;
+    border-radius: 5px;
 }
 .main-content{
     
@@ -228,23 +236,23 @@ th,td{
 .need-signing{
     
     background-color: #436d7c ;
-    border-radius: 22px;
+    
     color:white;
-    padding: 4px 14px; 
+   
 }
 .pending{
     background-color: #E8ECF1 ;
-    border-radius: 22px;
-    color:#626d82;
-    padding: 4px 14px; 
     
+    color:#626d82;
+    
+    /* width:37% ; */
 
 }
 .Completed{ 
     background-color:#D3F7B5 ;
-    border-radius: 22px;
+    
     color:#1f4451;
-    padding: 4px 14px; 
+    
 }
 .W1{
    font-size: 16px;
@@ -258,4 +266,13 @@ th,td{
    font-family: Spline Sans;
    font-style: italic;
 } 
-
+.status{
+    width: fit-content;
+    border-radius: 22px;
+    padding: 4px 14px; 
+}
+.waiting{
+    display: flex;
+    flex-direction: column;
+    gap:6px;
+}
