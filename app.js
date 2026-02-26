@@ -75,7 +75,7 @@ document.addEventListener("click", function (e) {
     let details = JSON.parse(localStorage.getItem("docDetails")) || [];
 
     // Remove item
-    details.splice(index, 2);
+    details.splice(index, 1);
 
     // Save updated data
     localStorage.setItem("docDetails", JSON.stringify(details));
