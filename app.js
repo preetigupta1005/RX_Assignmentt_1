@@ -47,6 +47,13 @@ navAddDocButt === null || navAddDocButt === void 0 ? void 0 : navAddDocButt.addE
 //cancel button of form
 cancelbtn === null || cancelbtn === void 0 ? void 0 : cancelbtn.addEventListener("click", () => {
     formAddDoc === null || formAddDoc === void 0 ? void 0 : formAddDoc.classList.toggle("hide");
+    form === null || form === void 0 ? void 0 : form.reset();
+    editIndex = null;
+    if (formHeader && addButton) {
+        formHeader.textContent = "Add Document";
+        addButton.textContent = "Add";
+    }
+    pendingDiv === null || pendingDiv === void 0 ? void 0 : pendingDiv.classList.add("hide");
 });
 document.addEventListener("click", function (e) {
     const target = e.target;

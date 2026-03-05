@@ -60,6 +60,13 @@ navAddDocButt?.addEventListener("click", function () {
 //cancel button of form
 cancelbtn?.addEventListener("click", () => {
   formAddDoc?.classList.toggle("hide");
+  form?.reset();
+  editIndex = null;
+  if (formHeader && addButton) {
+    formHeader.textContent = "Add Document";
+    addButton.textContent = "Add";
+  }
+  pendingDiv?.classList.add("hide");
 });
 
 document.addEventListener("click", function (e) {
