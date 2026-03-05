@@ -10,24 +10,28 @@ const addButton = document.getElementById("addButton");
 const searchInput = document.getElementById("searchInput");
 const statusSelect = document.querySelector<HTMLSelectElement>("#Status");
 const pendingDiv = document.querySelector<HTMLElement>(".for-pending");
+const lastModifiedInput = document.getElementById(
+  "lastModified",
+) as HTMLInputElement;
 
+//addEventListener("change", ...) runs when the dropdown value changes.
 if (statusSelect && pendingDiv) {
-  statusSelect.addEventListener("change", () => {
+  statusSelect?.addEventListener("change", () => {
     if (statusSelect.value === "Pending") {
-      pendingDiv.classList.remove("hide");
+      pendingDiv?.classList.remove("hide");
     } else {
-      pendingDiv.classList.add("hide");
+      pendingDiv?.classList.add("hide");
     }
   });
 }
 let editIndex: number | null = null;
 
-//Function for Getting Data
+//Function for Getting Data .... JSON.parse() expects a string ... converts string to real array:
 const getDocDetails = (): DocItem[] => {
   return JSON.parse(localStorage.getItem("docDetails") ?? "[]");
 };
 
-//Function for Sving Data
+//Function for Saving Data
 const setDocDetails = (data: DocItem[]): void => {
   localStorage.setItem("docDetails", JSON.stringify(data));
 };
@@ -36,21 +40,24 @@ type DocItem = {
   name: string;
   status: string;
   waiting?: number;
+  lastModified: string;
 };
-//in ts we use ? means if it null it simply does nothing
 
-//1. logout toggle
+// logout toggle
 sidebarAarrow?.addEventListener("click", function (e) {
   e.stopPropagation();
-  logOut?.classList.toggle("show");
+  logOut?.classList.toggle("hide");
 });
 
-//2. Add doc button toggle so form display
+//Add doc button toggle so form display
 navAddDocButt?.addEventListener("click", function () {
   formAddDoc?.classList.toggle("hide");
+  if (lastModifiedInput) {
+    lastModifiedInput.value = new Date().toLocaleString();
+  }
 });
 
-//3. cancel form of form
+//cancel button of form
 cancelbtn?.addEventListener("click", () => {
   formAddDoc?.classList.toggle("hide");
 });
@@ -71,7 +78,7 @@ document.addEventListener("click", function (e) {
     });
   }
 
-  //4. deleting details
+  // deleting details
   if (target.classList.contains("delete")) {
     // Get index
     const index = target.dataset.index;
@@ -112,7 +119,11 @@ document.addEventListener("click", function (e) {
     // CHANGE HEADING + BUTTON text
     formHeader.textContent = "Edit Document";
     addButton.textContent = "Edit";
+    const now = new Date().toLocaleString();
 
+    if (lastModifiedInput) {
+      lastModifiedInput.value = now;
+    }
     // Show form
     formAddDoc.classList.remove("hide");
   }
@@ -165,52 +176,41 @@ if (form) {
     let name = target.docname.value;
     let status = target.status.value;
     let waiting = target.num as HTMLInputElement;
-    if (!name || status === "Select Status") {
-      alert("Please fill all fields");
-      return;
-    }
+    let now = new Date().toLocaleString();
     let details = getDocDetails();
     const newItem: DocItem = {
-    name,
-    status,
-  };
-   if (status === "Pending") {
-    newItem.waiting = Number(waiting.value);
-  }
-   if (editIndex !== null) {
+      name,
+      status,
+      lastModified: now,
+    };
+    if (status === "Pending") {
+      newItem.waiting = Number(waiting.value);
+    }
+
+    if (editIndex !== null) {
       details[editIndex] = newItem;
-      editIndex = null;
     } else {
       details.push(newItem);
     }
-    // If Editing
-    if (!formHeader || !addButton || !formAddDoc) return;
-    if (editIndex !== null) {
-      //to change from edit doc to add doc back
+
+    setDocDetails(details);
+    displayData();
+    // reset everything in one place
+    form.reset();
+    pendingDiv?.classList.add("hide");
+
+    editIndex = null;
+
+    if (formHeader && addButton) {
       formHeader.textContent = "Add Document";
       addButton.textContent = "Add";
-      details[editIndex] = {
-        name: name,
-        status: status,
-      };
+    }
 
-      editIndex = null; // reset after editing
-    }
-    // If Adding New
-    else {
-      details.push({
-        name: name,
-        status: status,
-      });
-    }
-    setDocDetails(details);
-    form.reset();
-    displayData();
-    formAddDoc.classList.add("hide");
+    formAddDoc?.classList.add("hide");
   });
 }
 
-//8. Display data {here data for search input box if anything in search so show only that otherwise all}
+//Display data {here data for search input box if anything in search so show only that otherwise all}
 
 let displayData = (data?: DocItem[]) => {
   let details: DocItem[] = data ?? getDocDetails();
@@ -230,9 +230,6 @@ let displayData = (data?: DocItem[]) => {
       signNow_class = "Download PDF";
     }
 
-    let d = new Date().toLocaleDateString();
-    let t = new Date().toLocaleTimeString();
-
     finalData += ` <tr class="row">
                             <td class="check">
                                 <input type="checkbox">
@@ -240,18 +237,18 @@ let displayData = (data?: DocItem[]) => {
                             <td class="doc">
                                 ${element.name}
                             </td>
-                            <td class="">
+                            <td class="StatusDiv">
                                 
-                                <span class="status ${status_class}" >${element.status}</span>
-                                ${
+                                <div><span class="status ${status_class}" >${element.status}</span></div>
+                                <div>${
                                   element.status === "Pending" &&
                                   element.waiting
                                     ? `<div class="W1">Waiting for <span class="W2"> ${element.waiting} </span> persons</div>`
                                     : ""
-                                }
+                                }</div>
                             </td>
                             <td class="date">
-                                ${d}<br>${t}
+                                  ${element.lastModified}
                             </td>
                             <td class="but-div">
                                 <button class="but">${signNow_class}</button>
@@ -259,8 +256,8 @@ let displayData = (data?: DocItem[]) => {
                             <td>
                             <div class="dots"><img src="Assest/Icons/more_vert_24dp_5F6368_FILL0_wght400_GRAD0_opsz24 2.png" class="dots-img">
                                 <div class="editDltDiv hide">
-                                    <button class="edit" data-index="${i}">Edit</button>
-                                    <button class="delete" data-index="${i}">Delete</button>
+                                    <button class="edit" data-index="${i}"><img src="Assest/Icons/edit.svg"/>Edit</button>
+                                    <button class="delete" data-index="${i}"><img src="Assest/Icons/delete.png"/>Delete</button>
                                 </div>
                               </div>
                             </td>

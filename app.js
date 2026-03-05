@@ -1,5 +1,3 @@
-"use strict";
-// Object.defineProperty(exports, "__esModule", { value: true });
 const logOut = document.querySelector(".logOut");
 const sidebarAarrow = document.querySelector(".sidebar-arrow");
 const formAddDoc = document.querySelector(".formAddDoc");
@@ -12,37 +10,41 @@ const addButton = document.getElementById("addButton");
 const searchInput = document.getElementById("searchInput");
 const statusSelect = document.querySelector("#Status");
 const pendingDiv = document.querySelector(".for-pending");
+const lastModifiedInput = document.getElementById("lastModified");
+//addEventListener("change", ...) runs when the dropdown value changes.
 if (statusSelect && pendingDiv) {
-    statusSelect.addEventListener("change", () => {
+    statusSelect === null || statusSelect === void 0 ? void 0 : statusSelect.addEventListener("change", () => {
         if (statusSelect.value === "Pending") {
-            pendingDiv.classList.remove("hide");
+            pendingDiv === null || pendingDiv === void 0 ? void 0 : pendingDiv.classList.remove("hide");
         }
         else {
-            pendingDiv.classList.add("hide");
+            pendingDiv === null || pendingDiv === void 0 ? void 0 : pendingDiv.classList.add("hide");
         }
     });
 }
 let editIndex = null;
-//Function for Getting Data
+//Function for Getting Data .... JSON.parse() expects a string ... converts string to real array:
 const getDocDetails = () => {
     var _a;
     return JSON.parse((_a = localStorage.getItem("docDetails")) !== null && _a !== void 0 ? _a : "[]");
 };
-//Function for Sving Data
+//Function for Saving Data
 const setDocDetails = (data) => {
     localStorage.setItem("docDetails", JSON.stringify(data));
 };
-//in ts we use ? means if it null it simply does nothing
-//1. logout toggle
+// logout toggle
 sidebarAarrow === null || sidebarAarrow === void 0 ? void 0 : sidebarAarrow.addEventListener("click", function (e) {
     e.stopPropagation();
-    logOut === null || logOut === void 0 ? void 0 : logOut.classList.toggle("show");
+    logOut === null || logOut === void 0 ? void 0 : logOut.classList.toggle("hide");
 });
-//2. Add doc button toggle so form display
+//Add doc button toggle so form display
 navAddDocButt === null || navAddDocButt === void 0 ? void 0 : navAddDocButt.addEventListener("click", function () {
     formAddDoc === null || formAddDoc === void 0 ? void 0 : formAddDoc.classList.toggle("hide");
+    if (lastModifiedInput) {
+        lastModifiedInput.value = new Date().toLocaleString();
+    }
 });
-//3. cancel form of form
+//cancel button of form
 cancelbtn === null || cancelbtn === void 0 ? void 0 : cancelbtn.addEventListener("click", () => {
     formAddDoc === null || formAddDoc === void 0 ? void 0 : formAddDoc.classList.toggle("hide");
 });
@@ -59,7 +61,7 @@ document.addEventListener("click", function (e) {
             menu.classList.add("hide");
         });
     }
-    //4. deleting details
+    // deleting details
     if (target.classList.contains("delete")) {
         // Get index
         const index = target.dataset.index;
@@ -92,6 +94,10 @@ document.addEventListener("click", function (e) {
         // CHANGE HEADING + BUTTON text
         formHeader.textContent = "Edit Document";
         addButton.textContent = "Edit";
+        const now = new Date().toLocaleString();
+        if (lastModifiedInput) {
+            lastModifiedInput.value = now;
+        }
         // Show form
         formAddDoc.classList.remove("hide");
     }
@@ -133,52 +139,36 @@ if (form) {
         let name = target.docname.value;
         let status = target.status.value;
         let waiting = target.num;
-        if (!name || status === "Select Status") {
-            alert("Please fill all fields");
-            return;
-        }
+        let now = new Date().toLocaleString();
         let details = getDocDetails();
         const newItem = {
             name,
             status,
+            lastModified: now,
         };
         if (status === "Pending") {
             newItem.waiting = Number(waiting.value);
         }
         if (editIndex !== null) {
             details[editIndex] = newItem;
-            editIndex = null;
         }
         else {
             details.push(newItem);
         }
-        // If Editing
-        if (!formHeader || !addButton || !formAddDoc)
-            return;
-        if (editIndex !== null) {
-            //to change from edit doc to add doc back
+        setDocDetails(details);
+        displayData();
+        // reset everything in one place
+        form.reset();
+        pendingDiv === null || pendingDiv === void 0 ? void 0 : pendingDiv.classList.add("hide");
+        editIndex = null;
+        if (formHeader && addButton) {
             formHeader.textContent = "Add Document";
             addButton.textContent = "Add";
-            details[editIndex] = {
-                name: name,
-                status: status,
-            };
-            editIndex = null; // reset after editing
         }
-        // If Adding New
-        else {
-            details.push({
-                name: name,
-                status: status,
-            });
-        }
-        setDocDetails(details);
-        form.reset();
-        displayData();
-        formAddDoc.classList.add("hide");
+        formAddDoc === null || formAddDoc === void 0 ? void 0 : formAddDoc.classList.add("hide");
     });
 }
-//8. Display data {here data for search input box if anything in search so show only that otherwise all}
+//Display data {here data for search input box if anything in search so show only that otherwise all}
 let displayData = (data) => {
     let details = data !== null && data !== void 0 ? data : getDocDetails();
     let finalData = "";
@@ -198,8 +188,6 @@ let displayData = (data) => {
             status_class = "Completed";
             signNow_class = "Download PDF";
         }
-        let d = new Date().toLocaleDateString();
-        let t = new Date().toLocaleTimeString();
         finalData += ` <tr class="row">
                             <td class="check">
                                 <input type="checkbox">
@@ -207,16 +195,16 @@ let displayData = (data) => {
                             <td class="doc">
                                 ${element.name}
                             </td>
-                            <td class="">
+                            <td class="StatusDiv">
                                 
-                                <span class="status ${status_class}" >${element.status}</span>
-                                ${element.status === "Pending" &&
+                                <div><span class="status ${status_class}" >${element.status}</span></div>
+                                <div>${element.status === "Pending" &&
             element.waiting
             ? `<div class="W1">Waiting for <span class="W2"> ${element.waiting} </span> persons</div>`
-            : ""}
+            : ""}</div>
                             </td>
                             <td class="date">
-                                ${d}<br>${t}
+                                  ${element.lastModified}
                             </td>
                             <td class="but-div">
                                 <button class="but">${signNow_class}</button>
@@ -224,8 +212,8 @@ let displayData = (data) => {
                             <td>
                             <div class="dots"><img src="Assest/Icons/more_vert_24dp_5F6368_FILL0_wght400_GRAD0_opsz24 2.png" class="dots-img">
                                 <div class="editDltDiv hide">
-                                    <button class="edit" data-index="${i}">Edit</button>
-                                    <button class="delete" data-index="${i}">Delete</button>
+                                    <button class="edit" data-index="${i}"><img src="Assest/Icons/edit.svg"/>Edit</button>
+                                    <button class="delete" data-index="${i}"><img src="Assest/Icons/delete.png"/>Delete</button>
                                 </div>
                               </div>
                             </td>
@@ -235,4 +223,5 @@ let displayData = (data) => {
         tbody.innerHTML = finalData;
 };
 displayData();
+export {};
 //# sourceMappingURL=app.js.map

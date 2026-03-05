@@ -33,8 +33,11 @@
               </div>
             </div>
 
-            <div class="logOut">
-              <button>Logout</button>
+            <div class="logOut hide">
+             
+              <button>
+                <img src="Assest/Icons/logout.svg" alt="logout-img" class="logout-img"/>
+                Logout</button>
             </div>
           </div>
 
@@ -100,7 +103,7 @@
           </div>
           <div class="addSearchDiv">
             <div class="navAddDocButt">
-              <button class="headerAddDocButt">Add</button>
+              <button class="headerAddDocButt"><img src="Assest/Icons/plus.png" class="plusImg"></button>
             </div>
             <div class="search">
               <div class="search-doc">
@@ -151,12 +154,13 @@
             id="Document-Title"
             class="Document-Title"
             name="docname"
+            required
           /><br />
         </div>
         <div class="statusDiv">
           <label for="Status" class="label1">Status: </label>
-          <select id="Status" name="status" class="Status">
-            <option selected value="Select Status">Select Status</option>
+          <select id="Status" name="status" class="Status" required>
+            <option value="">Select Status</option>
             <option value="Needs Signing">Needs Signing</option>
             <option value="Pending">Pending</option>
             <option value="Completed">Completed</option>
@@ -164,8 +168,18 @@
         </div>
         <div class="for-pending hide">
           <label for="waiting_num">Person Waiting</label>
-          <input type="number" id="waiting_num" placeholder="1" min="1"  name="num"/>
+          <input
+            type="number"
+            id="waiting_num"
+            placeholder="1"
+            min="1"
+            name="num"
+          />
         </div>
+          <div>
+            <label for="lastModified">Last Modified</label>
+            <input type="text" id="lastModified" readonly />
+          </div>
         <div class="formButDiv">
           <button type="submit" class="addDocButt" id="addButton">Add</button>
           <button type="button" class="cancelbtn" id="cancelButton">
@@ -175,6 +189,6 @@
       </form>
     </div>
 
-    <script src="app.js"></script>
+    <script type="module" src="app.js"></script>
   </body>
 </html>

@@ -61,7 +61,7 @@ body {
   font-family: "Spline Sans", sans-serif;
   font-weight: 600;
   font-size: 12x;
-  white-space: nowrap;
+  /* white-space: nowrap; */
 }
 .primary-user {
   font-family: "Spline Sans", sans-serif;
@@ -83,23 +83,30 @@ body {
   border-radius: 6px;
 }
 .logOut {
-  display: none;
-  padding: 10pxpx;
+  display: flex;
+  padding: 10px;
   position: absolute;
   right: 0;
-  top: calc(100% + 8px);
+  top: calc(100% + 7px);
 }
 .logOut button {
   background-color: white;
-  height: 30px;
+  height: 35px;
   width: 25px;
   padding: 7px 15px;
-  border: 2px solid #d3f7b4;
+  border: 1px solid #e2e8f0;
   border-radius: 10px;
-  font-size: 14px;
+  font-size: 16px;
   width: fit-content;
+  color:red;
 }
-
+.logout-img{
+  height: 15px;
+  width: 15px;
+}
+.logOut button:hover {
+    background-color: rgb(249, 211, 211);
+}
 .show {
   display: block;
 }
@@ -208,11 +215,12 @@ select {
   height: 47px;
   width: 70px;
   padding: 10px;
-  border: 5px solid #ed8c8c;
   border-radius: 8px;
-  background-color: #ed8c8c;
-  color: white;
-  font-size: 16px;
+  background-color: white;
+  border: 1px solid white;
+}
+.navAddDocButt button:hover {
+   box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
 .my-documents {
   font-family: Zin Display;
@@ -353,18 +361,25 @@ td {
   border: 1px solid #ddd;
 }
 .editDltDiv button {
-  height: 30px;
+  height: 20px;
   width: 90px;
   border-radius: 5px;
-  color: white;
+  background-color: white;
+  border: 1px solid white;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 16px;
+}
+.editDltDiv button:hover{
+  background-color: #e8ecf1;;
 }
 .edit {
-  background-color: #ed8c8c;
-  border-color: #ed8c8c;
+  color:black;
+
 }
 .delete {
-  background-color: #84cdac;
-  border-color: #84cdac;
+  color:red;
 }
 /* add doc form button styling */
 .addDocButt {
@@ -397,4 +412,20 @@ td {
 .dots {
   position: relative;
   width: 100%;
+}
+.StatusDiv{
+  display: flex;
+  flex-direction: column;
+  gap:5px;
+}
+.plusImg{
+  height: 20px;
+  width: 20px;
+}
+.editDltDiv button img{
+   height: 15px;
+   width: 15px;
+}
+.b:hover{
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
