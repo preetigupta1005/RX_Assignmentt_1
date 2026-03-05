@@ -69,13 +69,14 @@ document.addEventListener("click", function (e) {
         });
     }
     // deleting details
-    if (target.classList.contains("delete")) {
+    if (target.closest(".delete")) {
         // Get index
-        const index = target.dataset.index;
+        const dltBtn = target.closest(".delete");
+        const indexValue = dltBtn.dataset.index;
         // Get data from localStorage
         let details = getDocDetails();
         // Remove item
-        details.splice(Number(index), 1);
+        details.splice(Number(indexValue), 1);
         // Save updated data
         setDocDetails(details);
         // Remove row from DOM
@@ -84,11 +85,10 @@ document.addEventListener("click", function (e) {
     }
     //5. edit doc (this just show to pick index and store that row data in docname and status var and open form withese value )
     // after form reopen so add in same row functionality done in submit form part
-    if (target.classList.contains("edit")) {
+    if (target.closest(".edit")) {
         // Get index
-        const indexValue = target.dataset.index;
-        if (!indexValue)
-            return;
+        const editBtn = target.closest(".edit");
+        const indexValue = editBtn.dataset.index;
         editIndex = Number(indexValue);
         // Get data
         let details = getDocDetails();
@@ -98,6 +98,15 @@ document.addEventListener("click", function (e) {
         // Fill form fields
         form.docname.value = item === null || item === void 0 ? void 0 : item.name;
         form.status.value = item === null || item === void 0 ? void 0 : item.status;
+        const waitingInput = form.num;
+        if ((item === null || item === void 0 ? void 0 : item.status) === "Pending") {
+            pendingDiv === null || pendingDiv === void 0 ? void 0 : pendingDiv.classList.remove("hide");
+            waitingInput.value = item.waiting ? String(item.waiting) : "";
+        }
+        else {
+            pendingDiv === null || pendingDiv === void 0 ? void 0 : pendingDiv.classList.add("hide");
+            waitingInput.value = "";
+        }
         // CHANGE HEADING + BUTTON text
         formHeader.textContent = "Edit Document";
         addButton.textContent = "Edit";
@@ -219,10 +228,10 @@ let displayData = (data) => {
                             <td>
                             <div class="dots"><img src="Assest/Icons/more_vert_24dp_5F6368_FILL0_wght400_GRAD0_opsz24 2.png" class="dots-img">
                                 <div class="editDltDiv hide">
-                                    <button class="edit" data-index="${i}"><img src="Assest/Icons/edit.svg"/>Edit</button>
-                                    <button class="delete" data-index="${i}"><img src="Assest/Icons/delete.png"/>Delete</button>
+                                    <div class="edit" data-index="${i}"><img src="Assest/Icons/edit.png"/>Edit</div>
+                                    <div class="delete" data-index="${i}"><img src="Assest/Icons/delete.png" />Delete</div>
                                 </div>
-                              </div>
+                              </div>  
                             </td>
                         </tr>`;
     });

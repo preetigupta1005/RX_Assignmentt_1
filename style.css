@@ -98,14 +98,14 @@ body {
   border-radius: 10px;
   font-size: 16px;
   width: fit-content;
-  color:red;
+  color: red;
 }
-.logout-img{
+.logout-img {
   height: 15px;
   width: 15px;
 }
 .logOut button:hover {
-    background-color: rgb(249, 211, 211);
+  background-color: rgb(249, 211, 211);
 }
 .show {
   display: block;
@@ -113,7 +113,7 @@ body {
 form {
   background-color: white;
   /* height: 320px; */
-  
+
   width: 400px;
   padding: 20px;
   border-radius: 10px;
@@ -220,7 +220,7 @@ select {
   border: 1px solid white;
 }
 .navAddDocButt button:hover {
-   box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 .my-documents {
   font-family: Zin Display;
@@ -360,7 +360,7 @@ td {
   background-color: white;
   border: 1px solid #ddd;
 }
-.editDltDiv button {
+.editDltDiv div {
   height: 20px;
   width: 90px;
   border-radius: 5px;
@@ -371,15 +371,14 @@ td {
   gap: 6px;
   font-size: 16px;
 }
-.editDltDiv button:hover{
-  background-color: #e8ecf1;;
+.editDltDiv div:hover {
+  background-color: #e8ecf1;
 }
 .edit {
-  color:black;
-
+  color: black;
 }
 .delete {
-  color:red;
+  color: red;
 }
 /* add doc form button styling */
 .addDocButt {
@@ -413,19 +412,19 @@ td {
   position: relative;
   width: 100%;
 }
-.StatusDiv{
+.StatusDiv {
   display: flex;
   flex-direction: column;
-  gap:5px;
+  gap: 5px;
 }
-.plusImg{
+.plusImg {
   height: 20px;
   width: 20px;
 }
-.editDltDiv button img{
-   height: 15px;
-   width: 15px;
+.editDltDiv div img {
+  height: 15px;
+  width: 15px;
 }
-.b:hover{
-  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+.b:hover {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
