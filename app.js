@@ -14,7 +14,7 @@ const lastModifiedInput = document.getElementById("lastModified");
 //addEventListener("change", ...) runs when the dropdown value changes.
 if (statusSelect && pendingDiv) {
     statusSelect === null || statusSelect === void 0 ? void 0 : statusSelect.addEventListener("change", () => {
-        if (statusSelect.value === "Pending") {
+        if (statusSelect.value === Status.PENDING) {
             pendingDiv === null || pendingDiv === void 0 ? void 0 : pendingDiv.classList.remove("hide");
         }
         else {
@@ -31,6 +31,11 @@ const getDocDetails = () => {
 //Function for Saving Data
 const setDocDetails = (data) => {
     localStorage.setItem("docDetails", JSON.stringify(data));
+};
+const Status = {
+    PENDING: "Pending",
+    NEEDS_SIGNING: "Needs Signing",
+    COMPLETED: "Completed",
 };
 // logout toggle
 sidebarAarrow === null || sidebarAarrow === void 0 ? void 0 : sidebarAarrow.addEventListener("click", function (e) {
@@ -59,7 +64,7 @@ document.addEventListener("click", function (e) {
     const target = e.target;
     // If click is NOT inside arrow and NOT inside logout menu
     if (!target.closest(".sidebarArrow") && !target.closest(".logOut")) {
-        logOut === null || logOut === void 0 ? void 0 : logOut.classList.remove("show");
+        logOut === null || logOut === void 0 ? void 0 : logOut.classList.add("hide");
     }
     // Close menu when clicking anywhere outside
     // If click is NOT inside .dots AND NOT inside .editDltDiv
@@ -74,14 +79,12 @@ document.addEventListener("click", function (e) {
         const dltBtn = target.closest(".delete");
         const indexValue = dltBtn.dataset.index;
         // Get data from localStorage
-        let details = getDocDetails();
+        const details = getDocDetails();
         // Remove item
         details.splice(Number(indexValue), 1);
         // Save updated data
         setDocDetails(details);
-        // Remove row from DOM
-        let row = target.closest("tr");
-        row === null || row === void 0 ? void 0 : row.remove();
+        displayData();
     }
     //5. edit doc (this just show to pick index and store that row data in docname and status var and open form withese value )
     // after form reopen so add in same row functionality done in submit form part
@@ -91,15 +94,15 @@ document.addEventListener("click", function (e) {
         const indexValue = editBtn.dataset.index;
         editIndex = Number(indexValue);
         // Get data
-        let details = getDocDetails();
-        let item = details[editIndex];
+        const details = getDocDetails();
+        const item = details[editIndex];
         if (!form || !formHeader || !addButton || !formAddDoc)
             return;
         // Fill form fields
         form.docname.value = item === null || item === void 0 ? void 0 : item.name;
         form.status.value = item === null || item === void 0 ? void 0 : item.status;
         const waitingInput = form.num;
-        if ((item === null || item === void 0 ? void 0 : item.status) === "Pending") {
+        if ((item === null || item === void 0 ? void 0 : item.status) === Status.PENDING) {
             pendingDiv === null || pendingDiv === void 0 ? void 0 : pendingDiv.classList.remove("hide");
             waitingInput.value = item.waiting ? String(item.waiting) : "";
         }
@@ -152,17 +155,17 @@ if (form) {
     form.addEventListener("submit", (e) => {
         e.preventDefault();
         const target = e.target;
-        let name = target.docname.value;
-        let status = target.status.value;
-        let waiting = target.num;
-        let now = new Date().toLocaleString();
-        let details = getDocDetails();
+        const name = target.docname.value;
+        const status = target.status.value;
+        const waiting = target.num;
+        const now = new Date().toLocaleString();
+        const details = getDocDetails();
         const newItem = {
             name,
             status,
             lastModified: now,
         };
-        if (status === "Pending") {
+        if (status === Status.PENDING) {
             newItem.waiting = Number(waiting.value);
         }
         if (editIndex !== null) {
@@ -185,22 +188,22 @@ if (form) {
     });
 }
 //Display data {here data for search input box if anything in search so show only that otherwise all}
-let displayData = (data) => {
+function displayData(data) {
     let details = data !== null && data !== void 0 ? data : getDocDetails();
     let finalData = "";
     details.forEach((element, i) => {
         let status_class = "";
         let signNow_class = "";
         let waitingDiv = "";
-        if (element.status == "Pending") {
+        if (element.status == Status.PENDING) {
             status_class = "pending";
             signNow_class = "Preview";
         }
-        else if (element.status == "Needs Signing") {
+        else if (element.status == Status.NEEDS_SIGNING) {
             status_class = "need-signing";
             signNow_class = "Sign Now";
         }
-        else if (element.status == "Completed") {
+        else if (element.status == Status.COMPLETED) {
             status_class = "Completed";
             signNow_class = "Download PDF";
         }
@@ -214,7 +217,7 @@ let displayData = (data) => {
                             <td class="StatusDiv">
                                 
                                 <div><span class="status ${status_class}" >${element.status}</span></div>
-                                <div>${element.status === "Pending" &&
+                                <div>${element.status === Status.PENDING &&
             element.waiting
             ? `<div class="W1">Waiting for <span class="W2"> ${element.waiting} </span> persons</div>`
             : ""}</div>
@@ -237,7 +240,8 @@ let displayData = (data) => {
     });
     if (tbody)
         tbody.innerHTML = finalData;
-};
+}
+;
 displayData();
 export {};
 //# sourceMappingURL=app.js.map

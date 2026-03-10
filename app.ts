@@ -15,7 +15,7 @@ const lastModifiedInput = document.getElementById("lastModified") as HTMLInputEl
 //addEventListener("change", ...) runs when the dropdown value changes.
 if (statusSelect && pendingDiv) {
   statusSelect?.addEventListener("change", () => {
-    if (statusSelect.value === "Pending") {
+    if (statusSelect.value === Status.PENDING) {
       pendingDiv?.classList.remove("hide");
     } else {
       pendingDiv?.classList.add("hide");
@@ -36,10 +36,18 @@ const setDocDetails = (data: DocItem[]): void => {
 
 type DocItem = {
   name: string;
-  status: string;
+  status: String;
   waiting?: number;
   lastModified: string;
 };
+
+const Status = {
+  PENDING: "Pending",
+  NEEDS_SIGNING: "Needs Signing",
+  COMPLETED: "Completed",
+} as const;
+
+
 
 // logout toggle
 sidebarAarrow?.addEventListener("click", function (e) {
@@ -72,7 +80,7 @@ document.addEventListener("click", function (e) {
 
   // If click is NOT inside arrow and NOT inside logout menu
   if (!target.closest(".sidebarArrow") && !target.closest(".logOut")) {
-    logOut?.classList.remove("show");
+    logOut?.classList.add("hide");
   }
 
   // Close menu when clicking anywhere outside
@@ -91,7 +99,7 @@ document.addEventListener("click", function (e) {
     
     
     // Get data from localStorage
-    let details = getDocDetails();
+    const details = getDocDetails();
 
     // Remove item
     
@@ -100,10 +108,8 @@ document.addEventListener("click", function (e) {
 
     // Save updated data
     setDocDetails(details);
-
-    // Remove row from DOM
-    let row = target.closest("tr");
-    row?.remove();
+    displayData();
+    
   }
 
   //5. edit doc (this just show to pick index and store that row data in docname and status var and open form withese value )
@@ -116,9 +122,9 @@ document.addEventListener("click", function (e) {
     editIndex = Number(indexValue);
 
     // Get data
-    let details = getDocDetails();
+    const details = getDocDetails();
 
-    let item = details[editIndex];
+    const item = details[editIndex];
 
     if (!form || !formHeader || !addButton || !formAddDoc) return;
     // Fill form fields
@@ -127,7 +133,7 @@ document.addEventListener("click", function (e) {
 
     const waitingInput = form.num as HTMLInputElement;
 
-    if (item?.status === "Pending") {
+    if (item?.status === Status.PENDING) {
       pendingDiv?.classList.remove("hide");
       waitingInput.value = item.waiting ? String(item.waiting) : "";
     } else {
@@ -192,17 +198,17 @@ if (form) {
   form.addEventListener("submit", (e) => {
     e.preventDefault();
     const target = e.target as HTMLFormElement;
-    let name = target.docname.value;
-    let status = target.status.value;
-    let waiting = target.num as HTMLInputElement;
-    let now = new Date().toLocaleString();
-    let details = getDocDetails();
+    const name = target.docname.value;
+    const status = target.status.value;
+    const waiting = target.num as HTMLInputElement;
+    const now = new Date().toLocaleString();
+    const details = getDocDetails();
     const newItem: DocItem = {
       name,
       status,
       lastModified: now,
     };
-    if (status === "Pending") {
+    if (status === Status.PENDING) {
       newItem.waiting = Number(waiting.value);
     }
 
@@ -231,20 +237,20 @@ if (form) {
 
 //Display data {here data for search input box if anything in search so show only that otherwise all}
 
-let displayData = (data?: DocItem[]) => {
+function displayData(data?: DocItem[]) {
   let details: DocItem[] = data ?? getDocDetails();
   let finalData = "";
   details.forEach((element, i) => {
     let status_class = "";
     let signNow_class = "";
     let waitingDiv = "";
-    if (element.status == "Pending") {
+    if (element.status == Status.PENDING) {
       status_class = "pending";
       signNow_class = "Preview";
-    } else if (element.status == "Needs Signing") {
+    } else if (element.status == Status.NEEDS_SIGNING) {
       status_class = "need-signing";
       signNow_class = "Sign Now";
-    } else if (element.status == "Completed") {
+    } else if (element.status == Status.COMPLETED) {
       status_class = "Completed";
       signNow_class = "Download PDF";
     }
@@ -260,7 +266,7 @@ let displayData = (data?: DocItem[]) => {
                                 
                                 <div><span class="status ${status_class}" >${element.status}</span></div>
                                 <div>${
-                                  element.status === "Pending" &&
+                                  element.status === Status.PENDING &&
                                   element.waiting
                                     ? `<div class="W1">Waiting for <span class="W2"> ${element.waiting} </span> persons</div>`
                                     : ""

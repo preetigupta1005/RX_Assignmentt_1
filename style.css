@@ -107,9 +107,7 @@ body {
 .logOut button:hover {
   background-color: rgb(249, 211, 211);
 }
-.show {
-  display: block;
-}
+
 form {
   background-color: white;
   /* height: 320px; */
@@ -139,9 +137,7 @@ select {
   height: 40px;
   width: 40%;
 }
-.show {
-  display: block;
-}
+
 
 .icon {
   height: 41px;
